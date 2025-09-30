@@ -5,7 +5,6 @@ import aboutBg from './assets/aboutus.png';
 import mapImg from './assets/map.png';
 import './App.css';
 
-
 const App = () => {
   const audioRef = useRef(null);
   const progressRef = useRef(null);
