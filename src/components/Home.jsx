@@ -12,6 +12,8 @@ const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
+  const [isShuffled, setIsShuffled] = useState(false);
+  const [isRepeating, setIsRepeating] = useState(false);
 
   const playlist = useMemo(() => {
     const imported = import.meta.glob('../assets/*.{mp3,wav,ogg}', { eager: true });
@@ -92,6 +94,8 @@ const Home = () => {
 
   const toggleMute = () => setIsMuted((m) => !m);
   const changeVolume = (e) => setVolume(parseFloat(e.target.value));
+  const toggleShuffle = () => setIsShuffled((s) => !s);
+  const toggleRepeat = () => setIsRepeating((r) => !r);
 
   const formatTime = (s) => {
     if (!isFinite(s)) return '0:00';
@@ -127,6 +131,14 @@ const Home = () => {
                 <span className="muted">-{formatTime(Math.max(duration - current, 0))}</span>
               </div>
               <div className="controls">
+                <div className="controls-left">
+                  <button className={`ctrl ${isShuffled ? 'active' : ''}`} aria-label="Shuffle" onClick={toggleShuffle}>
+                    <i className="bi bi-shuffle"></i>
+                  </button>
+                  <button className={`ctrl ${isRepeating ? 'active' : ''}`} aria-label="Repeat" onClick={toggleRepeat}>
+                    <i className="bi bi-repeat"></i>
+                  </button>
+                </div>
                 <div className="transport">
                   <button className="ctrl" aria-label="Previous" onClick={playPrev}>
                     <i className="bi bi-skip-backward-fill"></i>
@@ -143,7 +155,7 @@ const Home = () => {
                     <i className={`bi ${isMuted || volume === 0 ? 'bi-volume-mute-fill' : volume < 0.5 ? 'bi-volume-down-fill' : 'bi-volume-up-fill'}`}></i>
                   </button>
                   <input
-                    className="volume-slider"
+                    className="volume-slider-small"
                     type="range"
                     min="0"
                     max="1"

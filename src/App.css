@@ -159,6 +159,13 @@
   gap: 16px;
 }
 
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
 .transport {
   display: flex;
   align-items: center;
@@ -186,14 +193,40 @@
   border-color: #ffffff;
 }
 
-.controls .ctrl i { font-size: 22px; line-height: 1; }
+.ctrl.active {
+  background: rgba(123, 216, 255, 0.2);
+  border-color: #7bd8ff;
+  color: #7bd8ff;
+}
+
+.controls .ctrl i { font-size: 32px; line-height: 1; }
+
+/* Smaller buttons for shuffle, repeat, and volume */
+.controls-left .ctrl {
+  width: 36px;
+  height: 36px;
+}
+
+.controls-left .ctrl i {
+  font-size: 18px;
+}
+
+.volume .ctrl {
+  width: 36px;
+  height: 36px;
+}
+
+.volume .ctrl i {
+  font-size: 18px;
+}
 
 /* Volume */
 .volume {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-left: auto;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .volume-slider {
@@ -226,11 +259,46 @@
   cursor: pointer;
 }
 
+.volume-slider-small {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.35);
+  outline: none;
+}
+
+.volume-slider-small::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #0b1730;
+  cursor: pointer;
+}
+
+.volume-slider-small::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #0b1730;
+  cursor: pointer;
+}
+
 /* Player layout enhancements */
 .audio-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.audio-header .bi-soundwave {
+  font-size: 28px;
+  color: #7bd8ff;
 }
 
 .time-group {
