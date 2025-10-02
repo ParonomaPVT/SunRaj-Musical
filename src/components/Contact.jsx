@@ -80,7 +80,7 @@ const Contact = () => {
       <style jsx>{`
         .contact-section {
           padding: 100px 0;
-          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+          background: rgba(14, 31, 74, 1);
           color: white;
           min-height: 100vh;
           display: flex;

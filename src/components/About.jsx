@@ -1,11 +1,9 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import aboutBg from '../assets/aboutus.png';
 
 const About = () => {
   return (
-    <section id="about" className="about-section reveal visible" style={{ backgroundImage: `url(${aboutBg})` }}>
-      <div className="about-scrim"></div>
+    <section id="about" className="about-section reveal visible" style={{ background: 'rgba(14, 31, 74, 1)' }}>
       <Container>
         <Row className="justify-content-center">
           <Col lg={10} xl={8}>
