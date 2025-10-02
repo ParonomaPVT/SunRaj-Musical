@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Container } from 'react-bootstrap';
 import mapImg from '../assets/map.png';
 
 const Reach = () => {
   const [activeLocation, setActiveLocation] = useState(null);
+  const mapRef = useRef(null);
 
   const locations = [
     {
@@ -29,7 +30,8 @@ const Reach = () => {
     }
   ];
 
-  const handleLocationClick = (location) => {
+  const handleLocationClick = (location, event) => {
+    event.stopPropagation(); // Prevent event bubbling
     setActiveLocation(activeLocation?.id === location.id ? null : location);
   };
 
@@ -37,12 +39,41 @@ const Reach = () => {
     setActiveLocation(null);
   };
 
+  const handleMapClick = (event) => {
+    // Close popup if clicking on the map background (not on markers or popup)
+    if (event.target === mapRef.current || event.target.classList.contains('reach-overlay')) {
+      setActiveLocation(null);
+    }
+  };
+
+  // Close popup when clicking outside the map area
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (mapRef.current && !mapRef.current.contains(event.target)) {
+        setActiveLocation(null);
+      }
+    };
+
+    if (activeLocation) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [activeLocation]);
+
   return (
     <section id="reach" className="reach-section reveal visible">
       <Container>
         <div className="reach-grid">
           <div className="reach-side">We Serve All Over</div>
-          <div className="reach-map" style={{ backgroundImage: `url(${mapImg})` }}>
+          <div 
+            ref={mapRef}
+            className="reach-map" 
+            style={{ backgroundImage: `url(${mapImg})` }}
+            onClick={handleMapClick}
+          >
             <div className="reach-overlay"></div>
             
             {/* Location Markers */}
@@ -51,7 +82,7 @@ const Reach = () => {
                 key={location.id}
                 className={`location-marker ${activeLocation?.id === location.id ? 'active' : ''}`}
                 style={location.position}
-                onClick={() => handleLocationClick(location)}
+                onClick={(event) => handleLocationClick(location, event)}
               >
                 <div className="marker-pulse"></div>
                 <div className="marker-icon">
@@ -65,6 +96,7 @@ const Reach = () => {
               <div 
                 className="location-popup"
                 style={activeLocation.position}
+                onClick={(event) => event.stopPropagation()}
               >
                 <div className="popup-content">
                   <button 
