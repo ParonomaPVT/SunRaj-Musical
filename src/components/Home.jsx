@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import heroImg from '../assets/images/home.png';
 
 const Home = () => {
+  // Force deployment refresh
   const audioRef = useRef(null);
   const progressRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
