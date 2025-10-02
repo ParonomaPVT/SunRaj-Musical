@@ -1,8 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import mapImg from '../assets/map.png';
 
 const Reach = () => {
+  const [activeLocation, setActiveLocation] = useState(null);
+
+  const locations = [
+    {
+      id: 1,
+      name: "Paris, France",
+      position: { top: '35%', left: '48%' },
+      description: "Our flagship European branch in the heart of Paris. Home to our main recording studio and concert hall, hosting over 200 events annually.",
+      details: "📍 15 Rue de la Musique, 75001 Paris\n🎵 Main Studio & Concert Hall\n📞 +33 1 42 86 17 00\n✨ Capacity: 1,200 guests"
+    },
+    {
+      id: 2,
+      name: "Berlin, Germany", 
+      position: { top: '28%', left: '52%' },
+      description: "Our innovative Berlin branch specializes in electronic music production and underground concert experiences in the vibrant German capital.",
+      details: "📍 Musikstraße 42, 10178 Berlin\n🎵 Electronic Music Hub\n📞 +49 30 2462 7890\n✨ Capacity: 800 guests"
+    },
+    {
+      id: 3,
+      name: "Amsterdam, Netherlands",
+      position: { top: '25%', left: '49%' },
+      description: "Our Amsterdam location focuses on intimate acoustic performances and houses our European artist development program.",
+      details: "📍 Concertgebouwplein 8, 1071 LN Amsterdam\n🎵 Acoustic Performance Center\n📞 +31 20 573 0573\n✨ Capacity: 600 guests"
+    }
+  ];
+
+  const handleLocationClick = (location) => {
+    setActiveLocation(activeLocation?.id === location.id ? null : location);
+  };
+
+  const handleClosePopup = () => {
+    setActiveLocation(null);
+  };
+
   return (
     <section id="reach" className="reach-section reveal visible">
       <Container>
@@ -10,6 +44,50 @@ const Reach = () => {
           <div className="reach-side">We Serve All Over</div>
           <div className="reach-map" style={{ backgroundImage: `url(${mapImg})` }}>
             <div className="reach-overlay"></div>
+            
+            {/* Location Markers */}
+            {locations.map((location) => (
+              <div
+                key={location.id}
+                className={`location-marker ${activeLocation?.id === location.id ? 'active' : ''}`}
+                style={location.position}
+                onClick={() => handleLocationClick(location)}
+              >
+                <div className="marker-pulse"></div>
+                <div className="marker-icon">
+                  <i className="bi bi-geo-alt-fill"></i>
+                </div>
+              </div>
+            ))}
+
+            {/* Location Popup */}
+            {activeLocation && (
+              <div 
+                className="location-popup"
+                style={activeLocation.position}
+              >
+                <div className="popup-content">
+                  <button 
+                    className="popup-close"
+                    onClick={handleClosePopup}
+                  >
+                    <i className="bi bi-x"></i>
+                  </button>
+                  <h4 className="popup-title">{activeLocation.name}</h4>
+                  <p className="popup-description">{activeLocation.description}</p>
+                  <div className="popup-details">
+                    {activeLocation.details.split('\n').map((line, index) => (
+                      <div key={index} className="detail-line">{line}</div>
+                    ))}
+                  </div>
+                  <button className="popup-cta">
+                    <i className="bi bi-calendar-event"></i>
+                    Book Event
+                  </button>
+                </div>
+                <div className="popup-arrow"></div>
+              </div>
+            )}
           </div>
         </div>
         <div className="reach-notes">
